@@ -32,5 +32,51 @@ matrizDistancias=np.full((numVariables,numVariables),fill_value=-1.0,dtype=float
 for i in range(numVariables-1):
     for j in range(i+1,numVariables):
         matrizDistancias[i][j]=np.sqrt(np.sum(np.square(matrizCoordenadas[i]-matrizCoordenadas[j])))
+    ##
+        matrizDistancias[j][i]=matrizDistancias[i][j]
+        print('Matriz de Distancias: \n',matrizDistancias,'\ntamaño:',matrizDistancias.shape,'\ntipo:',type(matrizDistancias))
+
+
+matrizHeuristica = np.full_like(matrizDistancias, fill_value=1/matrizDistancias, dtype=float)
+print('Matriz de Heurística: \n', matrizHeuristica, '\ntamaño:', matrizHeuristica.shape, '\ntipo:', type(matrizHeuristica))
+
+#Se procede a crear colonia vacia (tamaño colonia x num variable) inicializado con el valor -1
+
+colonia=np.full((col, numVariables), fill_value=-1, dtype=int)
+print('Colonia:\n',colonia, '\ntamaño:', colonia.shape, '\ntipo:', type(colonia))
+
+
+#Función para calcular el costo de la solucion
+#n: num de var
+#s: vector solución
+#c: matriz de distancias
+
+def solucionCalculaCosto(n,s,c):
+    aux = c[s[n-1]][s[0]]
+    for i in range(n-1):
+        aux+=c[s[i]][s[i+1]]
+    return aux
+
+
+#Creación primera solución
+solucionOptima = np.array([0,48,31,44,18,40,7,8,9,42,32,50,10,51,13,12,46,25,26,27,11,24,3,5,14,4,23,47,37,36,39,38,35,34,33,43,45,15,28,49,19,22,29,1,6,41,20,16])
+solucionMejor = np.arange(0,numVariables)
+np.random.shuffle(solucionMejor)
+solucionMejorCosto = solucionCalculaCosto(numVariables, solucionMejor, matrizDistancias)
+solucionMejorIteracion=0
+print('Solucion inicial y a la vez mejor solucion: ', solucionMejor,'\ntamaño:', solucionMejor.shape,'\ntipo',type(solucionMejor))
+print('Costo de la solucion inicial y a la vez mejor solucion: ',solucionMejorCosto)
+print('Iteración donde se encontró la mejor solución:', solucionMejorIteracion)
+
+#Creación Matriz de feromona
+matrizFeromona = np.full_like(matrizDistancias,fill_value=1/solucionMejorCosto,dtype=float)
+print('Matriz de Feromona: \n',matrizFeromona,'\ntamaño:',matrizFeromona.shape,'\ntipo:',type(matrizFeromona))
+
+#Inicio ciclo iterativo de ACS por numero predefinido de iteraciones
+
+generacion=0
+while generacion < ite:
+    generacion+=1
+    print('\nGeneracion: ',generacion)
 
 
