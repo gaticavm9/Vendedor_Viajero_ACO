@@ -69,11 +69,26 @@ print('Iteración donde se encontró la mejor solución:', solucionMejorIteracio
 #Creación Matriz de feromona
 matrizFeromona = np.full_like(matrizDistancias,fill_value=1/solucionMejorCosto,dtype=float)
 print('Matriz de Feromona: \n',matrizFeromona,'\ntamaño:',matrizFeromona.shape,'\ntipo:',type(matrizFeromona),'\n')
+
 """
 #Inicio ciclo iterativo de ACS por numero predefinido de iteraciones
 generacion=0
 while generacion < ite:
     generacion+=1
     print('\nGeneracion: ',generacion)
+
+"""
+#Resultados
+print('Resultados:')
+##Calculo del tiempo que tomó el algoritmo
+tiempo_proceso_fin = time.process_time()
+print("Tiempo de procesamiento: %f segundos" %(tiempo_proceso_fin - tiempo_proceso_ini))
+print('Mejor solución: ', solucionMejor)
+print('Costo mejor solución: ', solucionMejorCosto)
+print('Iteraciones hasta mejor solución: ', solucionMejorIteracion,'\n')
+
+"""
+mc=ig.Layout(coords=matrizCoordenadas.tolist())
+ig.plot(imprimeGrafo(numVariables,solucionMejor), loyout=mc)
 
 """
