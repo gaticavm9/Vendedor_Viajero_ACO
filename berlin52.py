@@ -3,6 +3,7 @@ import time
 import numpy as np
 import pandas as pd
 import igraph as ig
+import matplotlib.pyplot as plt
 
 sys.argv = ['berlin52.py','1','20','10','0.1','2.5','0.9','berlin52.tsp.txt']
 
@@ -56,7 +57,7 @@ def solucionCalculaCosto(n,s,c):
         aux += c[s[i]][s[i+1]]
     return aux
 
-#Creación primera solución
+#Creación primera solución y se asigna como mejor solución encontrada
 solucionOptima = np.array([0,48,31,44,18,40,7,8,9,42,32,50,10,51,13,12,46,25,26,27,11,24,3,5,14,4,23,47,37,36,39,38,35,34,33,43,45,15,28,49,19,22,29,1,6,41,20,16,2,17,30,21,-2])
 solucionMejor = np.arange(0,numVariables)
 np.random.shuffle(solucionMejor)
@@ -70,14 +71,20 @@ print('Iteración donde se encontró la mejor solución:', solucionMejorIteracio
 matrizFeromona = np.full_like(matrizDistancias,fill_value=1/solucionMejorCosto,dtype=float)
 print('Matriz de Feromona: \n',matrizFeromona,'\ntamaño:',matrizFeromona.shape,'\ntipo:',type(matrizFeromona),'\n')
 
-"""
+
+## Aplicación del algoritmo ACS
 #Inicio ciclo iterativo de ACS por numero predefinido de iteraciones
 generacion=0
 while generacion < ite:
     generacion+=1
-    print('\nGeneracion: ',generacion)
+    print('Generacion: ',generacion)
+    for i in range (col):
+        print("hormiga ",i+1)
+        ##Asignar randómicamente las hormigas en los vértices del grafo.
+       
 
-"""
+
+
 #Resultados
 print('Resultados:')
 ##Calculo del tiempo que tomó el algoritmo
@@ -87,8 +94,31 @@ print('Mejor solución: ', solucionMejor)
 print('Costo mejor solución: ', solucionMejorCosto)
 print('Iteraciones hasta mejor solución: ', solucionMejorIteracion,'\n')
 
-"""
+##Funcion que imprime grafo con las conexiones de las n variables
+def imprimeGrafo(tam,sol):
+    etiqueta = [x for x in range(tam)]
+    lista = []
+    for i in range(tam-1):
+        par = []
+        par.append(sol[i])
+        par.append(sol[i+1])
+        lista.append(par)
+    lista.append([sol[tam-1],sol[0]])
+    color = ['red'] * numVariables
+    color[lista[0][0]] = 'blue'
+    g = ig.Graph(n = tam, directed=True)
+    g.add_edges(lista)
+    g.vs["label"] = etiqueta
+    g.vs["color"] = color
+    g.vs["label_size"] = 6
+    g.vs["size"] = 12
+    g.es["edge_size"] = 2
+    return g
+
+
 mc=ig.Layout(coords=matrizCoordenadas.tolist())
 ig.plot(imprimeGrafo(numVariables,solucionMejor), loyout=mc)
 
-"""
+
+
+##plt.plot(imprimeGrafo(numVariables,solucionMejor), loyout=mc)
