@@ -29,8 +29,8 @@ matrizCoordenadas = pd.read_table(entrada, header=None, skiprows=6, sep=" ", nam
 matrizCoordenadas = matrizCoordenadas.drop(index=(len(matrizCoordenadas)-1),axis=0)
 matrizCoordenadas = matrizCoordenadas.drop(columns=0,axis=1).to_numpy()
 numVariables = matrizCoordenadas.shape[0]
-print('Matriz de coordenadas:\n', matrizCoordenadas,'\ntamaño',matrizCoordenadas.shape, '\ntipo',type(matrizCoordenadas))
-print('Número de variables:', numVariables,'\n')
+#print('Matriz de coordenadas:\n', matrizCoordenadas,'\ntamaño',matrizCoordenadas.shape, '\ntipo',type(matrizCoordenadas))
+#print('Número de variables:', numVariables,'\n')
 
 ## Se crea matriz de distancia de 52x52
 matrizDistancias=np.full((numVariables,numVariables),fill_value=-1.0,dtype=float)
@@ -39,15 +39,15 @@ for i in range(numVariables-1):
         matrizDistancias[i][j]=np.sqrt(np.sum(np.square(matrizCoordenadas[i]-matrizCoordenadas[j])))
     ##
         matrizDistancias[j][i]=matrizDistancias[i][j]
-print('Matriz de Distancias: \n',matrizDistancias,'\ntamaño:',matrizDistancias.shape,'\ntipo:',type(matrizDistancias),'\n')
+#print('Matriz de Distancias: \n',matrizDistancias,'\ntamaño:',matrizDistancias.shape,'\ntipo:',type(matrizDistancias),'\n')
 
 ## Generar matriz heuristica 1/matrizDistancia
 matrizHeuristica = np.full_like(matrizDistancias, fill_value=1/matrizDistancias, dtype=float)
-print('Matriz de Heurística: \n', matrizHeuristica, '\ntamaño:', matrizHeuristica.shape, '\ntipo:', type(matrizHeuristica),'\n')
+#print('Matriz de Heurística: \n', matrizHeuristica, '\ntamaño:', matrizHeuristica.shape, '\ntipo:', type(matrizHeuristica),'\n')
 
 #Se procede a crear colonia vacia (tamaño colonia x num variable) inicializado con el valor -1
 colonia=np.full((col, numVariables), fill_value=-1, dtype=int)
-print('Colonia:\n',colonia, '\ntamaño:', colonia.shape, '\ntipo:', type(colonia),'\n')
+#print('Colonia:\n',colonia, '\ntamaño:', colonia.shape, '\ntipo:', type(colonia),'\n')
 
 #Función para calcular el costo de la solucion
 #n: num de var      #s: vector solución     #c: matriz de distancias
@@ -69,19 +69,25 @@ print('Iteración donde se encontró la mejor solución:', solucionMejorIteracio
 
 #Creación Matriz de feromona
 matrizFeromona = np.full_like(matrizDistancias,fill_value=1/solucionMejorCosto,dtype=float)
-print('Matriz de Feromona: \n',matrizFeromona,'\ntamaño:',matrizFeromona.shape,'\ntipo:',type(matrizFeromona),'\n')
+#print('Matriz de Feromona: \n',matrizFeromona,'\ntamaño:',matrizFeromona.shape,'\ntipo:',type(matrizFeromona),'\n')
 
 
 ## Aplicación del algoritmo ACS
 #Inicio ciclo iterativo de ACS por numero predefinido de iteraciones
 generacion=0
-while generacion < ite:
+
+#print('Colonia con ubicacion hormigas, generacion',generacion,':\n',colonia)
+
+while generacion < 3: ## generacion < ite:
     generacion+=1
     print('Generacion: ',generacion)
-    for i in range (col):
-        print("hormiga ",i+1)
-        ##Asignar randómicamente las hormigas en los vértices del grafo.
-       
+
+    colonia[:, 0] =  np.random.randint(0, numVariables, size=(1, col)) #Llenar primera columna con posicion inicial de las hormigas
+
+    for i in range(numVariables):
+        for j in range(col):
+
+    
 
 
 

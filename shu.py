@@ -4,8 +4,9 @@ import random
 np.random.seed(10)
 
 aa=np.full((10,10),fill_value=1,dtype=int)
-bb=np.full((4,10),fill_value=2,dtype=int)
+bb=np.full((7,10),fill_value=-1,dtype=int)
 
+"""
 print(aa)
 print("\n",bb)
 print("\n",len(aa),len(bb))
@@ -15,6 +16,10 @@ for i in range(len(bb)):
 print("\n",aa)
 
 np.random.shuffle(aa)
+"""
+
+print("\n",bb)
 
 
-print("\n",aa)
+bb[:, 0] =  np.random.randint(0, 5, size=(1, 7))
+print("\n",bb)
