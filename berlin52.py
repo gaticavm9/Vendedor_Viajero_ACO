@@ -43,7 +43,7 @@ for i in range(numVariables-1):
 
 ## Generar matriz heuristica 1/matrizDistancia
 matrizHeuristica = np.full_like(matrizDistancias, fill_value=1/matrizDistancias, dtype=float)
-#print('Matriz de Heurística: \n', matrizHeuristica, '\ntamaño:', matrizHeuristica.shape, '\ntipo:', type(matrizHeuristica),'\n')
+print('Matriz de Heurística: \n', matrizHeuristica, '\ntamaño:', matrizHeuristica.shape, '\ntipo:', type(matrizHeuristica),'\n')
 
 #Se procede a crear colonia vacia (tamaño colonia x num variable) inicializado con el valor -1
 colonia=np.full((col, numVariables), fill_value=-1, dtype=int)
@@ -69,7 +69,7 @@ print('Iteración donde se encontró la mejor solución:', solucionMejorIteracio
 
 #Creación Matriz de feromona
 matrizFeromona = np.full_like(matrizDistancias,fill_value=1/solucionMejorCosto,dtype=float)
-#print('Matriz de Feromona: \n',matrizFeromona,'\ntamaño:',matrizFeromona.shape,'\ntipo:',type(matrizFeromona),'\n')
+print('Matriz de Feromona: \n',matrizFeromona,'\ntamaño:',matrizFeromona.shape,'\ntipo:',type(matrizFeromona),'\n')
 
 
 ## Aplicación del algoritmo ACS
@@ -78,14 +78,27 @@ generacion=0
 
 #print('Colonia con ubicacion hormigas, generacion',generacion,':\n',colonia)
 
-while generacion < 3: ## generacion < ite:
+while generacion < 2: ## generacion < ite:
     generacion+=1
     print('Generacion: ',generacion)
 
-    colonia[:, 0] =  np.random.randint(0, numVariables, size=(1, col)) #Llenar primera columna con posicion inicial de las hormigas
+    colonia[:, 0] =  np.random.randint(0, numVariables, size=(1, col)) #Llenar primera columna con posicion inicial de las hormigas np.random.randint(0, numVariables, size=(1, col))
+    print('Colonia:\n',colonia,'\n')
+    FxH=[]
+    
+    for i in range(2):  #numVariables
+        for j in range(2):  #col
+            
+            if(np.random.random() <= q0):
+                #Formula (1)
+                FxH.append(matrizFeromona[i][j] * matrizHeuristica[i][j])
+                print('FxH:',FxH,'\n')
 
-    for i in range(numVariables):
-        for j in range(col):
+            else:
+                print('Alto','\n')
+    
+    ## np.amax(FxH)
+
 
     
 
