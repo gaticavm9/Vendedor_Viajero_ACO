@@ -130,7 +130,7 @@ def feromGlob(nVar, sMej, mFer, sCos):
 
 ###############
 ###############
-while generacion < 2: ## generacion < ite:
+while generacion < ite: ## generacion < ite:
     colonia=np.full((col, numVariables), fill_value=-1, dtype=int)
     generacion+=1
     print('Generacion: ',generacion)
