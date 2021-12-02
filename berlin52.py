@@ -110,10 +110,23 @@ def proxNodo2(nodo, hormiga):
     posAux = prob.index(selec)
     pos2 = posProb[posAux]     
     return pos2
-#Funcion Actualizar feromona local
+#Funcion Actualizar Feromona local
 def feromL(ii, jj):
     ferL = ((1-tev)*(matrizFeromona[ii][jj])) + tev*T0
     return ferL
+#Funcion Actualizar Feromona Global
+def feromGlob(nVar, sMej, mFer, sCos):
+    for i in range(nVar):
+        for j in range(nVar):
+            #Busco indice donde está i en la mejor solucion, para comprobar si el elemento que sigue es igual a j (seria un segmento recorrido por la hormiga)
+            indexI = np.where(sMej == i)
+            indexI = int(indexI[0])
+            if(indexI < numVariables-1): 
+                if((sMej[indexI+1]) == j):
+                    mFer[i][j] = ((1-tev)*mFer[i][j]) + (tev*(1/sCos))
+                else:
+                    mFer[i][j] = ((1-tev)*mFer[i][j]) + 0    
+    return mFer    
 
 ###############
 ###############
@@ -149,6 +162,8 @@ while generacion < 2: ## generacion < ite:
             solucionMejorCosto = costoCamino
             solucionMejorIteracion = generacion         
     #Actualizacion feromona global
+    matrizFeromona = feromGlob(numVariables, solucionMejor, matrizFeromona, solucionMejorCosto)
+
 
     print("Result Colonia \n",colonia, "\n")
     print("Result Feromona \n",matrizFeromona, "\n") 

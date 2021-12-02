@@ -27,4 +27,7 @@ posAux = prob.index(selec)
 pos2 = posProb[posAux]
 print("Posicion ",pos2)
 
-print(matrizHeuristica[2])
+sMej = matrizHeuristica[0]
+indexI = np.where(sMej == 5)
+indexI = int(indexI[0])
+print("index ",indexI)
