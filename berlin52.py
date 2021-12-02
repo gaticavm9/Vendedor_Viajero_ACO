@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import igraph as ig
 import matplotlib.pyplot as plt
+import random 
 
 sys.argv = ['berlin52.py','1','20','10','0.1','2.5','0.9','berlin52.tsp.txt']
 
@@ -69,6 +70,7 @@ print('Iteración donde se encontró la mejor solución:', solucionMejorIteracio
 
 #Creación Matriz de feromona
 matrizFeromona = np.full_like(matrizDistancias,fill_value=1/solucionMejorCosto,dtype=float)
+T0= matrizFeromona[0][0]
 print('Matriz de Feromona: \n',matrizFeromona,'\ntamaño:',matrizFeromona.shape,'\ntipo:',type(matrizFeromona),'\n')
 
 
@@ -76,28 +78,72 @@ print('Matriz de Feromona: \n',matrizFeromona,'\ntamaño:',matrizFeromona.shape,
 #Inicio ciclo iterativo de ACS por numero predefinido de iteraciones
 generacion=0
 
-#print('Colonia con ubicacion hormigas, generacion',generacion,':\n',colonia)
+##Funcion 1.1 selecciona el nodo siguiente a visitar para el caso 0 < x < q0
+def proxNodo1(nodo, hormiga):
+    FxH=0
+    max=0
+    pos=0
+    for i in range(numVariables):
+        if not i in colonia[hormiga]:  #Restringir que ya está visitado (Solo nodo actual if(i!=nodo):)
+            FxH = matrizFeromona[nodo][i] * (matrizHeuristica[nodo][i] ** B)
+            if(FxH > max):
+                max = FxH
+                pos = i  
+    return pos
+##Funcion 2.2 selecciona el nodo siguiente a visitar para el caso q0 < x < 1
+def proxNodo2(nodo, hormiga):
+    prob=[]
+    posProb=[]
+    pos2=0
+    sumFxH=0
+    #Sumatoria de FxH**B
+    for i in range(numVariables):
+        if not i in colonia[hormiga]:
+            sumFxH= sumFxH + (matrizFeromona[nodo][i] * (matrizHeuristica[nodo][i] ** B))
+    #Hallar probabilidades y guardarlas en una lista
+    for i in range(numVariables):
+        if not i in colonia[hormiga]:  #Restringir que ya está visitado (Solo nodo actual if(i!=nodo):)
+            prob.append( (matrizFeromona[nodo][i] * (matrizHeuristica[nodo][i] ** B)) / sumFxH )
+            posProb.append(i)
+    #Seleccionar un elemento con ruleta
+    selec=random.choices(prob, weights=(prob), k=1)[0]
+    posAux = prob.index(selec)
+    pos2 = posProb[posAux]     
+    return pos2
+#Funcion Actualizar feromona local
+def feromL(ii, jj):
+    ferL = ((1-tev)*(matrizFeromona[ii][jj])) + tev*T0
+    return ferL
 
+###############
+###############
 while generacion < 2: ## generacion < ite:
+    colonia=np.full((col, numVariables), fill_value=-1, dtype=int)
     generacion+=1
     print('Generacion: ',generacion)
 
     colonia[:, 0] =  np.random.randint(0, numVariables, size=(1, col)) #Llenar primera columna con posicion inicial de las hormigas np.random.randint(0, numVariables, size=(1, col))
     print('Colonia:\n',colonia,'\n')
     FxH=[]
-    
-    for i in range(2):  #numVariables
-        for j in range(2):  #col
-            
+
+    for i in range(numVariables):  #numVariables
+        for j in range(col):  #col
+            #Hormiga avanza                   
             if(np.random.random() <= q0):
                 #Formula (1)
-                FxH.append(matrizFeromona[i][j] * matrizHeuristica[i][j])
-                print('FxH:',FxH,'\n')
+                if(i < numVariables-1):
+                    colonia[j][i+1] =  proxNodo1(colonia[j][i], j)  #Colocar proximo nodo a visitar
 
             else:
-                print('Alto','\n')
-    
-    ## np.amax(FxH)
+                if(i < numVariables-1):
+                    colonia[j][i+1] = proxNodo2(colonia[j][i], j)
+            #############
+            #Actualizar feromona local
+            if(i < numVariables-1):
+                matrizFeromona[colonia[j][i]][colonia[j][i+1]] = feromL(colonia[j][i], colonia[j][i+1])
+
+    print("Result Colonia \n",colonia, "\n")
+    print("Result Feromona \n",matrizFeromona, "\n") 
 
 
     
