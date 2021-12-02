@@ -6,7 +6,7 @@ import igraph as ig
 import matplotlib.pyplot as plt
 import random 
 
-sys.argv = ['berlin52.py','1','20','10','0.1','2.5','0.9','berlin52.tsp.txt']
+#sys.argv = ['berlin52.py','1','20','10','0.1','2.5','0.9','berlin52.tsp.txt']
 
 if len(sys.argv) == 8:
     semilla = int(sys.argv[1])
