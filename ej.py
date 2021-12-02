@@ -26,3 +26,5 @@ print(selec)
 posAux = prob.index(selec)
 pos2 = posProb[posAux]
 print("Posicion ",pos2)
+
+print(matrizHeuristica[2])

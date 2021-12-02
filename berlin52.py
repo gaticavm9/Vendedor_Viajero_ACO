@@ -125,7 +125,7 @@ while generacion < 2: ## generacion < ite:
     colonia[:, 0] =  np.random.randint(0, numVariables, size=(1, col)) #Llenar primera columna con posicion inicial de las hormigas np.random.randint(0, numVariables, size=(1, col))
     print('Colonia:\n',colonia,'\n')
     FxH=[]
-
+    #Camino de Hormigas
     for i in range(numVariables):  #numVariables
         for j in range(col):  #col
             #Hormiga avanza                   
@@ -141,6 +141,14 @@ while generacion < 2: ## generacion < ite:
             #Actualizar feromona local
             if(i < numVariables-1):
                 matrizFeromona[colonia[j][i]][colonia[j][i+1]] = feromL(colonia[j][i], colonia[j][i+1])
+    #Evaluar caminos encontrados para hallar mejores soluciones
+    for i in range(col):
+        costoCamino = solucionCalculaCosto(numVariables, colonia[i], matrizDistancias)
+        if (costoCamino < solucionMejorCosto):            
+            solucionMejor = colonia[i]
+            solucionMejorCosto = costoCamino
+            solucionMejorIteracion = generacion         
+    #Actualizacion feromona global
 
     print("Result Colonia \n",colonia, "\n")
     print("Result Feromona \n",matrizFeromona, "\n") 
