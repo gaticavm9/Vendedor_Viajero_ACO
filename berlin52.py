@@ -128,8 +128,9 @@ def feromGlob(nVar, sMej, mFer, sCos):
                     mFer[i][j] = ((1-tev)*mFer[i][j]) + 0    
     return mFer    
 
-###############
-###############
+########################################
+###   Implementación del algoritmo   ###
+########################################
 while generacion < ite: ## generacion < ite:
     colonia=np.full((col, numVariables), fill_value=-1, dtype=int)
     generacion+=1
@@ -168,10 +169,7 @@ while generacion < ite: ## generacion < ite:
     print("Result Colonia \n",colonia, "\n")
     print("Result Feromona \n",matrizFeromona, "\n") 
 
-
-    
-
-
+#################################################   
 
 #Resultados
 print('Resultados:')
