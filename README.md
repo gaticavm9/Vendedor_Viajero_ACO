@@ -14,4 +14,16 @@ Al momento de ejecutar el codigo se deben pasar los parametros necesarios para e
 El orden de los parametros a ingresar es: Semilla, TamañoColonia, NroIteraciones, TasaEvaportacion, Beta, q0, DatosEntrada
 
 Ejemplo:
->> berlin52.py 1 20 10 0.1 2.5 0.9 berlin52.tsp.txt
+>> python berlin52.py 2 50 100 0.1 2.5 0.9 berlin52.tsp.txt
+
+
+
+
+
+Resultados:
+Tiempo de procesamiento: 52.171875 segundos
+Mejor solución:  [29 22 19 49 28 15 45 43 33 34 35 38 39 37 36 47 23  4 14  5  3 24 11 27
+ 26 25 46 12 13 51 10 50 32 42  9  8  7 40 18 44 31 48  0 21 30 17  2 16
+ 20 41  6  1]
+Costo mejor solución:  7548.992710024182
+Iteraciones hasta mejor solución:  24
