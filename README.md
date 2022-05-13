@@ -1,4 +1,4 @@
-# Trabajo-programacion-2
+# Problema Vendedor viajero utilizando algoritmo de colonia de hormigas (ACO)
 Desarrollo de una aplicación que implementa el Problema del Vendedor Viajero a través del método de Sistema de Colonia de Hormigas utilizando el lenguaje de programación Python
 Se deben de setear los siguientes parámetros para la implementación del método:
 -Valor semilla generador valores randómicos.
